@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const TopBar = () => {
   const { t, i18n } = useTranslation("topbar");
-  const current = i18n.resolvedLanguage || i18n.language || "en";
+  const current = i18n.resolvedLanguage || i18n.language || "fr";
   const items = [
     { lng: "en", label: "English" },
     { lng: "mg", label: "Malagasy" },
@@ -16,7 +16,7 @@ const TopBar = () => {
     i18n.changeLanguage(lng);
   };
 
-  const activeLabel = items.find((x) => x.lng === current)?.label ?? "English";
+  const activeLabel = items.find((x) => x.lng === current)?.label ?? "Français";
 
   return (
     <div >
@@ -71,7 +71,6 @@ const TopBar = () => {
                             aria-current={isActive ? "true" : undefined}
                             onClick={onPick(lng)}
                           >
-                            {/* fa-fw = largeur fixe, le check n’avance pas le texte */}
                             <i className={`fas fa-fw me-1 ${isActive ? "fa-check" : ""}`}></i>
                             {label}
                           </a>

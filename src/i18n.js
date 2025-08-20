@@ -19,9 +19,10 @@ i18n
   .init({
     // resources,
     fallbackLng: "fr",
-    supportedLngs: ["fr", "en"],
+    supportedLngs: ["fr", "en","mg"],
     ns: ["common", "topbar"],
     defaultNS: "common",
+    nonExplicitSupportedLngs: true, // "mg-MG" => "mg"
     interpolation: { escapeValue: false },
     backend: {
       loadPath: import.meta.env.VITE_I18N_BASE + "/i18n/locales/{{lng}}/{{ns}}.json"
