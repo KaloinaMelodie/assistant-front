@@ -1,0 +1,181 @@
+/* ====== TES STYLES D’ORIGINE (inchangés) ====== */
+.link {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: rgb(55, 65, 81);
+  display: block;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 2px 0px;
+  background-color: transparent;
+  font-weight: normal;
+  transition: background 0.2s;
+}
+
+.linkActive {
+  background-color: rgb(229, 231, 235);
+  font-weight: 500;
+}
+
+.icon {
+  margin-right: 4px;
+  width: 16px;
+  font-size: 14px;
+  color: rgb(107, 114, 128);
+  transition: color 0.2s;
+}
+
+.iconActive {
+  color: rgb(71, 132, 176) !important;
+}
+
+.resource-guide-sidebar-contents {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Chaque lien (texte tronqué proprement) */
+.scrollLink {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 2px 0;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.scrollLink:hover {
+  background: #f3f4f6;
+}
+
+/* ====== AJOUTS LAYOUT UNIQUEMENT (pas de changement visuel) ====== */
+
+/* Desktop (≥ 769px) : on fait défiler le contenu, pas le conteneur */
+@media (min-width: 769px) {
+  :global(.resource-guide-nav-sidebar) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* le parent ne scrolle pas */
+    min-height: 0;
+  }
+
+  :global(.resource-guide-sidebar-contents) {
+    overflow-y: auto; /* c’est ici que ça scrolle en desktop */
+  }
+}
+
+/* Titre de section “Chat” collant en haut (même rendu visuel) */
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 12px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  color: #374151;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--sidebar-bg, #fff); /* + fond opaque identique au conteneur */
+  z-index: 10;
+}
+
+/* ========================= Mobile (< 769px) ========================= */
+
+.miniSidebar,
+.flyoutOverlay,
+.flyout {
+  display: none; /* par défaut: rien en desktop */
+}
+
+/* Appliquer UNIQUEMENT quand la largeur < 769px */
+@media (max-width: 768px) {
+   :global(.resource-guide-sidebar-contents) {
+    overflow: visible; /* c’est le .flyoutBody qui scrolle en mobile */
+  }
+  /* Mini barre étroite avec bouton ☰ */
+  .miniSidebar {
+    position: fixed;
+    top: 60px;        /* aligne sur ton header si nécessaire */
+    bottom: 0;
+    left: 0;
+    width: 48px;
+    border-right: 1px solid #e3e8ee;
+    background: #fff;
+    z-index: 6;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 8px;
+  }
+
+  .miniButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    color: #6b7280;
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+  .miniButton:hover { background: #f3f4f6; }
+
+  /* Overlay + panneau du flyout */
+  .flyoutOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 2000;
+    display: block;
+  }
+
+  .flyout {
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    width: clamp(260px, 85vw, 360px); /* s’adapte à l’appareil, jamais trop grand */
+    background: #fff;
+    border-right: 1px solid #e3e8ee;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.05);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flyoutHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    /* border-bottom: 1px solid #e5e7eb; */
+    background: #fff;
+  }
+
+  .close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    color: #6b7280;
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+  .close:hover { background: #f3f4f6; }
+
+  .flyoutBody {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;   /* contenu du flyout scrollable */
+    padding: 0 10px;
+  }
+}
