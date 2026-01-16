@@ -14,9 +14,10 @@
 }
 
 .linkActive {
-  background-color: rgb(229, 231, 235);
-  font-weight: 500;
+  background-color: rgb(229, 231, 235)!important; 
+  font-weight: 500!important;
 }
+
 
 .icon {
   margin-right: 4px;
@@ -178,4 +179,120 @@
     overflow-y: auto;   /* contenu du flyout scrollable */
     padding: 0 10px;
   }
+}
+
+
+/* ====== Chat item row ====== */
+.itemRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 4px; /* pour laisser respirer le bouton ⋯ */
+}
+
+.itemMain {
+  flex: 1 1 auto;
+  min-width: 0; /* autorise ellipsis à l’intérieur */
+}
+
+/* Le bouton ⋯ : invisible par défaut, visible au hover (desktop) */
+.moreBtn {
+  display: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: #6b7280;
+}
+.itemRow:hover .moreBtn {
+  display: inline-flex;
+}
+.moreBtn:hover {
+  background: #f3f4f6;
+}
+
+/* Menu contextuel (petit modal “style ChatGPT”) */
+.menu {
+  position: absolute;
+  right: 6px;
+  top: 100%;
+  margin-top: 4px;
+  min-width: 160px;
+  max-width: 280px;        
+  width: max-content;  
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.08);
+  z-index: 50;
+  padding: 6px;
+}
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #374151;
+  font-size: 14px;
+}
+.menuItem:hover {
+  background: #f3f4f6;
+}
+
+/* Input inline pour renommer */
+.titleInput {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 14px;
+  outline: none;
+}
+.titleInput:focus {
+  border-color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .moreBtn {
+    display: inline-flex;
+  }
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 4px 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.searchBox:focus-within {
+  border-color: #999;
+}
+
+.searchIcon {
+  color: #888;
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  color: #333;
 }

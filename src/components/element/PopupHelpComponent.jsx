@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ModalPopupComponent from "./ModalPopupComponent";
 
-export default function PopoverHelpComponent({ children }) {
+export default function PopupHelpComponent({ children }) {
   const [open, setOpen] = useState(false);
 
   return (

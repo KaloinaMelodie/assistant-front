@@ -105,7 +105,7 @@ export function Radio({ value, radioValue, onChange, inline, disabled, children 
         disabled={disabled}
         className="form-check-input"
         checked={value === radioValue}
-        onChange={() => {}}
+        onChange={() => { }}
         onClick={handleClick}
       />
       <label className="form-check-label" htmlFor={id}>{children}</label>
@@ -264,7 +264,7 @@ export function NumberInput({
       lang="en"
       style={inputStyle}
       value={inputText}
-      onChange={onChange ? (e) => setInputText(e.target.value) : () => {}}
+      onChange={onChange ? (e) => setInputText(e.target.value) : () => { }}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
@@ -312,10 +312,35 @@ export function NavPills({ pills, activePill, onPillClick }) {
   )
 }
 
-export function Toggle({ value, onChange, options, size, allowReset }) {
+export function Toggle({
+  value,
+  onChange,
+  options,
+  size,
+  allowReset,
+  multiple = false,   // <- nouveau
+}) {
+  const isArray = Array.isArray(value);
+  const current = multiple ? (isArray ? value : []) : value;
+
   const renderOption = (option, index) => {
-    const isActive = value === option.value
-    const nextValue = isActive && allowReset ? null : option.value
+    const isActive = multiple
+      ? current.includes(option.value)
+      : current === option.value;
+
+    const handleClick = () => {
+      if (multiple) {
+        // Multi-sélection: toggle in/out, toujours autorisé (donc none possible)
+        const next = isActive
+          ? current.filter(v => v !== option.value)
+          : [...current, option.value];
+        onChange?.(next);
+      } else {
+        // Sélection simple: comme avant (reset seulement si allowReset)
+        const nextValue = isActive && allowReset ? null : option.value;
+        if (!isActive || allowReset) onChange?.(nextValue);
+      }
+    };
 
     return (
       <button
@@ -324,23 +349,59 @@ export function Toggle({ value, onChange, options, size, allowReset }) {
         className={classNames("btn", {
           "btn-outline-primary": !isActive,
           "btn-primary": isActive,
-          active: isActive
+          active: isActive,
         })}
-        onClick={() => {
-          if (!isActive || allowReset) onChange?.(nextValue)
-        }}
+        onClick={handleClick}
         style={{ whiteSpace: "nowrap" }}
       >
         {option.label}
       </button>
-    )
-  }
+    );
+  };
 
-  const groupSize = size === "xs" ? "sm" : size
+  const groupSize = size === "xs" ? "sm" : size;
 
   return (
-    <div className={`btn-group ${groupSize ? `btn-group-${groupSize}` : ""}`}>{options.map(renderOption)}</div>
-  )
+    <div className={`btn-group ${groupSize ? `btn-group-${groupSize}` : ""}`}>
+      {options.map(renderOption)}
+    </div>
+  );
+}
+
+
+
+export function Alert({ variant = "info", dismissible = false, onClose, children }) {
+  return (
+    <div
+      className={classNames("alert", `alert-${variant}`, {
+        "alert-dismissible": dismissible,
+      })}
+      role="alert"
+      style={{
+        margin: "8px 12px",
+        position: "relative",
+        zIndex: 999,
+        borderRadius: 6,
+
+      }}
+    >
+      {children}
+      {dismissible && (
+        <button
+          type="button"
+          className="btn-close"
+          aria-label="Close"
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: 12,
+            transform: "translateY(-50%)"
+          }}
+        />
+      )}
+    </div>
+  );
 }
 
 export function CollapsiblePanel({ title, hint, children, initiallyClosed }) {

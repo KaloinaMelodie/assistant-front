@@ -1,21 +1,20 @@
-import { Navigate } from 'react-router-dom';
+// src/auth/ProtectedRoute.jsx
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from './components/auth/AuthContext';
+import LoadingComponent from './components/element/LoadingComponent';
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+export default function ProtectedRoute({ allowedRoles, children }) {
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-  if (!user) {
-    return <Navigate to="/app/notfound" replace />;
+  if (loading) return <LoadingComponent
+      height="calc(100dvh - var(--topbar-h, 0px))"
+      label="Vérification de session…"
+    />;
+  if (!user) return <Navigate to="/login" replace state={{ from: location }} />;
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/403" replace />;
   }
-
-  if (!allowedRoles || allowedRoles.length === 0) {
-    return children;
-  }
-
-  if (allowedRoles.includes(user.role)) {
-    return children;
-  }
-
-  return <Navigate to="/app/notfound" replace />;
-};
-
-export default ProtectedRoute;
+  return children;
+}
